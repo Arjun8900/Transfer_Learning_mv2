@@ -43,21 +43,21 @@ print(y_train_new_cat[1])
 
 print('shape is ', x_train.shape, ' ', y_train.shape)
 
-
+# LOADING THE MODEL AND FREEZING LAST LAYER AS IT IS CONVOLUTION LAYER
 base_model = MobileNetV2(weights='imagenet',include_top=False)
 
 x=base_model.output
 x=GlobalAveragePooling2D()(x)
 
-#x=Dense(1024,activation='relu')(x) 
-#x=Dense(1024,activation='relu')(x) 
-#x=Dense(512,activation='relu')(x) 
-
+# Adding 2 layers
 x=Dense(128,activation='relu')(x)
 preds=Dense(2,activation='softmax')(x) 
+# Initialising Model
 model=Model(inputs=base_model.input,outputs=preds)
 '''for i,layer in enumerate(model.layers):
   print(i,layer.name)'''
+
+# This will allow to the model to train only on last 2 layers
 for layer in model.layers[:len(model.layers)-2]:
     layer.trainable=False
 for layer in model.layers[len(model.layers)-2:]:
