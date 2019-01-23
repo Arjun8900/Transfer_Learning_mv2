@@ -48,17 +48,20 @@ base_model = MobileNetV2(weights='imagenet',include_top=False)
 
 x=base_model.output
 x=GlobalAveragePooling2D()(x)
+
 #x=Dense(1024,activation='relu')(x) 
 #x=Dense(1024,activation='relu')(x) 
-x=Dense(512,activation='relu')(x) 
+#x=Dense(512,activation='relu')(x) 
+
 x=Dense(128,activation='relu')(x)
 preds=Dense(2,activation='softmax')(x) 
 model=Model(inputs=base_model.input,outputs=preds)
 '''for i,layer in enumerate(model.layers):
   print(i,layer.name)'''
-for layer in model.layers[:1]:
+for layer in model.layers[:len(model.layers)-2]:
     layer.trainable=False
-
+for layer in model.layers[len(model.layers)-2:]:
+    layer.trainable=True
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 model.fit(x_train,y_train_new_cat, epochs = 30, validation_split = 0.1, shuffle = True, batch_size = 128)
