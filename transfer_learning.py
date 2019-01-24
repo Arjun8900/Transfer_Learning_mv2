@@ -61,6 +61,9 @@ model=Model(inputs=base_model.input,outputs=preds)
 for layer in base_model.layers:
     layer.trainable=False
 
+for layer in model.layers[len(base_model.layers):]:
+    layer.trainable=True
+
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 model.fit(x_train,y_train_new_cat, epochs = 30, validation_split = 0.1, shuffle = True, batch_size = 128)
