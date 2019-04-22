@@ -39,8 +39,6 @@ y_train_new = vals[inv]
 y_train_new_cat = to_categorical(y_train_new, num_classes)
 print(y_train_new_cat[1])
 
-
-
 print('shape is ', x_train.shape, ' ', y_train.shape)
 
 # LOADING THE MODEL AND FREEZING LAST LAYER AS IT IS CONVOLUTION LAYER
@@ -68,7 +66,3 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accur
 
 model.fit(x_train,y_train_new_cat, epochs = 30, validation_split = 0.1, shuffle = True, batch_size = 128)
 model.save('cat.model')
-
-
-
-
